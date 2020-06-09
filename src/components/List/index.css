@@ -1,0 +1,22 @@
+.wrapper {
+    width: 500px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+ul {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.info {
+    display: flex;
+    background-color: lemonchiffon ;
+    margin-bottom: 15px;
+}
+
+.info span {
+    font-weight: bold;
+}
