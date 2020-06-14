@@ -1,14 +1,12 @@
 import React from 'react';
 import './index.css';
 
-const Item = ({index, changeTime, changeAl, itemName}) => {
+const Item = ({id, changeTime, changeAl, itemName}) => {
   return (
-    <>
       <li title={`Последнее изменение: ${changeTime}`}>
-        <input type='checkbox' onChange={() => changeAl(index)} />
+        <input type='checkbox' onChange={() => changeAl(id)} />
         <label>{itemName}</label>
       </li>
-    </>
     )
 }
 

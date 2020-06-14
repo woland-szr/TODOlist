@@ -7,15 +7,18 @@ import './index.css';
 class List extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      todoItems: ['Дело №1', 'Дело №2', 'Дело №3'],
-      checked: [false, false, false],
-      changeTime: ['', '', ''],
-      alert: '',
-    }
+      this.state = {
+        items: [
+          {id: 1, title: 'Дело №1', checked: false, changeTime: ''}, 
+          {id: 2, title: 'Дело №2', checked: false, changeTime: ''},
+          {id: 3, title: 'Дело №3', checked: false, changeTime: ''}
+        ],
+        alert: '',
+      }
+
   }
   
-  changeAlert = (index) => {
+  changeAlert = (id) => {
     const options = {
       year: 'numeric',
       month: 'numeric',
@@ -29,23 +32,18 @@ class List extends React.Component {
     let now = new Date();
     now = now.toLocaleString("ru", options)
 
-    const {checked} = this.state;
-    const {changeTime} = this.state;
-
-    checked[index] ? checked[index] = false : checked[index] = true;
-    this.setState({checked: checked});
-      
-    changeTime[index] = now;
-    this.setState({changeTime: changeTime});
-    this.setState({alert: `Вы изменили задачу '${this.state.todoItems[index]}' ${now}`});
+    const currentItem = this.state.items.find(tmp => tmp.id === id)
+    
+    const itemsArr = this.state.items.map(item => item.id === id ? {...item, checked: !currentItem.checked, changeTime: now} : item)
+    
+    this.setState({items: itemsArr})
+    
+    this.setState({alert: `Вы изменили задачу '${currentItem.title}' ${now}`});
   }
 
   onClickBtn = () => {
-    let doneItems = 0;
-    this.state.checked.forEach((item) => {
-      if(item === true) {doneItems++};
-      })
-    this.setState({alert: `Выполнено дел: ${doneItems}`});
+    const doneItems = this.state.items.filter(el => el.checked === true)
+    this.setState({alert: `Выполнено дел: ${doneItems.length}`});
   }
 
   render() {
@@ -53,14 +51,14 @@ class List extends React.Component {
       <div className='wrapper'>     
         <h2>Список дел:</h2>
         <ul>
-          {this.state.todoItems.map((item, index) => {
+          {this.state.items.map((item) => {
             return (
               <Item
-                index = {index}
-                key = {item}
-                changeTime = {this.state.changeTime[index]}
+                id = {item.id}
+                key = {item.id}
+                changeTime = {item.changeTime}
                 changeAl = {this.changeAlert}
-                itemName = {item}
+                itemName = {item.title}
               />
             );
           })
